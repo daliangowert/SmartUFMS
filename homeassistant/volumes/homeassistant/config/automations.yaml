@@ -1,0 +1,318 @@
+- id: '1714596733873'
+  alias: 'Backup: Create backup'
+  description: ''
+  trigger:
+  - platform: time
+    at: 00:10:00
+  condition:
+  - condition: time
+    weekday:
+    - mon
+    - wed
+    - sat
+  action:
+  - service: backup.create
+    data: {}
+  mode: single
+- id: '1715195352599'
+  alias: Saída Labefec
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_off
+    device_id: e6ab071fa43bf250b03688d8a32405b8
+    entity_id: a73b27b28277a18cb7828a429b8c48fe
+    domain: switch
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  condition: []
+  action:
+  - type: turn_off
+    device_id: e6ab071fa43bf250b03688d8a32405b8
+    entity_id: 26ad55993a45d0b5f10a085f6271cb36
+    domain: switch
+    enabled: false
+  - type: turn_off
+    device_id: e6ab071fa43bf250b03688d8a32405b8
+    entity_id: a73b27b28277a18cb7828a429b8c48fe
+    domain: switch
+  - type: turn_off
+    device_id: e6ab071fa43bf250b03688d8a32405b8
+    entity_id: 600de5b0c91829fea7edfc8725154df0
+    domain: switch
+    enabled: false
+  - service: script.desligar_ar_gree
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1715195697476'
+  alias: Entrada Labefec
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: e6ab071fa43bf250b03688d8a32405b8
+    entity_id: a73b27b28277a18cb7828a429b8c48fe
+    domain: switch
+  condition: []
+  action:
+  - type: turn_on
+    device_id: e6ab071fa43bf250b03688d8a32405b8
+    entity_id: 26ad55993a45d0b5f10a085f6271cb36
+    domain: switch
+    enabled: false
+  - type: turn_on
+    device_id: e6ab071fa43bf250b03688d8a32405b8
+    entity_id: a73b27b28277a18cb7828a429b8c48fe
+    domain: switch
+  - type: turn_off
+    device_id: e6ab071fa43bf250b03688d8a32405b8
+    entity_id: 600de5b0c91829fea7edfc8725154df0
+    domain: switch
+    enabled: false
+  - service: script.ligar_ar_gree
+    data: {}
+  mode: single
+- id: '1715195976138'
+  alias: Embrasul MD 30 - Bloco11 Indisponível
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.tensao_fase_a
+    - sensor.tensao_fase_b
+    - sensor.tensao_fase_c
+    from:
+    to: unavailable
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+  condition: []
+  action:
+  - service: script.teste
+    metadata: {}
+    data:
+      title_notification: SmartUFMS - Notificação de indisponibilidade do dispositivo
+        MD30 - Bloco 11
+      message_notification: 'Prezado(a), <br><br>
+
+
+        Informamos que o dispositivo <b>Embrasul MD 30 (Bloco 11)</b> encontra-se
+        temporariamente indisponível.<br><br>
+
+
+        Certifique-se de verificar o ocorrido, isso pode estar relacionado a falta
+        de energia ou internet no local, por exemplo.<br><br>
+
+
+        Agradecemos a sua atenção e colaboração para a resolução deste incidente.<br><br>
+
+
+        Atenciosamente, <br>
+
+        Equipe do Sistema de Gerenciamento de Dispositivos IoT - SmartUFMS'
+  mode: single
+- id: '1715471982317'
+  alias: Goodwe Inversor Solar - Bloco 11 Indisponível
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.work_mode_5
+    from: Normal
+    to:
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+  condition:
+  - condition: time
+    after: sensor.sun_next_rising
+    before: sensor.sun_next_dusk
+  action:
+  - service: script.teste
+    metadata: {}
+    data:
+      title_notification: SmartUFMS - Notificação de indisponibilidade do dispositivo
+        Inversor Solar Bloco 11
+      message_notification: 'Prezado(a), <br><br>
+
+
+        Informamos que o dispositivo <b>Goodwe Inversor Solar (Bloco 11)</b> encontra-se
+        temporariamente indisponível.<br><br>
+
+
+        Certifique-se de verificar o ocorrido, isso pode estar relacionado a falta
+        de energia ou internet no local, por exemplo.<br><br>
+
+
+        Agradecemos a sua atenção e colaboração para a resolução deste incidente.<br><br>
+
+
+        Atenciosamente, <br>
+
+        Equipe do Sistema de Gerenciamento de Dispositivos IoT - SmartUFMS'
+  mode: single
+- id: '1715472605957'
+  alias: Sonoff POW R2 - Bloco 11 Indisponível
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.ar_001
+    - switch.ar_002
+    - switch.ar_003
+    - switch.ar_004
+    - switch.ar_005
+    - switch.ar_006
+    - switch.ar_008
+    to: unavailable
+    from:
+    enabled: true
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+  condition: []
+  action:
+  - service: script.teste
+    metadata: {}
+    data:
+      title_notification: SmartUFMS - Notificação de indisponibilidade de um ou mais
+        dispositivos Tasmota
+      message_notification: 'Prezado(a), <br><br>
+
+
+        Informamos que um ou mais dispositivos <b>Tasmota Sonoff Pow R2 (Bloco 11)</b>
+        encontra-se temporariamente indisponível.<br><br>
+
+
+        Certifique-se de verificar o ocorrido, isso pode estar relacionado a falta
+        de energia ou internet no local, por exemplo.<br><br>
+
+
+        Agradecemos a sua atenção e colaboração para a resolução deste incidente.<br><br>
+
+
+        Atenciosamente, <br>
+
+        Equipe do Sistema de Gerenciamento de Dispositivos IoT - SmartUFMS'
+  mode: single
+- id: '1715473149072'
+  alias: Tasmota Sonoff T0US3C - Bloco 11 Indisponível
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.luz_001_3c_1
+    - switch.luz_001_3c
+    - switch.luz_001_3c_2
+    to: unavailable
+    from:
+    enabled: true
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+  condition: []
+  action:
+  - service: script.teste
+    metadata: {}
+    data:
+      title_notification: SmartUFMS - Notificação de indisponibilidade de um ou mais
+        dispositivos Tasmota
+      message_notification: 'Prezado(a), <br><br>
+
+
+        Informamos que um ou mais dispositivos <b>Tasmota Sonoff T0US3C (Bloco 11)</b>
+        encontra-se temporariamente indisponível.<br><br>
+
+
+        Certifique-se de verificar o ocorrido, isso pode estar relacionado a falta
+        de energia ou internet no local, por exemplo.<br><br>
+
+
+        Agradecemos a sua atenção e colaboração para a resolução deste incidente.<br><br>
+
+
+        Atenciosamente, <br>
+
+        Equipe do Sistema de Gerenciamento de Dispositivos IoT - SmartUFMS'
+  mode: single
+- id: '1715473521863'
+  alias: Controle Temperatura Labefec
+  description: ''
+  trigger:
+  - type: temperature
+    platform: device
+    device_id: 295dc80fbd87a2e21bfd2bd10f660676
+    entity_id: 972d81f7a4387baeee88c598109ccfb4
+    domain: sensor
+    below: 22
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+  condition:
+  - condition: state
+    entity_id: climate.ar_gree
+    attribute: hvac_action
+    state: cooling
+  action:
+  - service: climate.set_temperature
+    target:
+      entity_id:
+      - climate.ar_gree
+    data:
+      temperature: 24
+      hvac_mode: cool
+  mode: single
+- id: '1715796473192'
+  alias: 'Climate: Desliga Ar GREE'
+  description: ''
+  trigger:
+  - type: power
+    platform: device
+    device_id: bacda704b85d05707a632c444096fe4e
+    entity_id: 74ed7d97d33c481060174f37847b2320
+    domain: sensor
+    below: 10
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: climate.ar_gree
+      attribute: hvac_action
+      state: 'off'
+  action:
+  - service: climate.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: climate.ar_gree
+  mode: single
+- id: '1715796594557'
+  alias: 'Climate: Ligar Ar GREE'
+  description: ''
+  trigger:
+  - type: power
+    platform: device
+    device_id: bacda704b85d05707a632c444096fe4e
+    entity_id: 74ed7d97d33c481060174f37847b2320
+    domain: sensor
+    above: 10
+  condition:
+  - condition: state
+    entity_id: climate.ar_gree
+    attribute: hvac_action
+    state: 'off'
+  action:
+  - service: climate.turn_on
+    target:
+      entity_id:
+      - climate.ar_gree
+    data: {}
+  mode: single

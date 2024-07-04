@@ -1,0 +1,141 @@
+    name: MD30-Multiuso
+    type: tcp
+    host: 172.25.8.15
+    port: 1001
+    sensors:
+      - name: Frequência FASE A
+        unique_id: Multiuso-FreqA
+        address: 67
+        slave: 1
+        data_type: float32
+        unit_of_measurement: Hz
+        device_class: frequency
+      - name: Tensão FASE A
+        unique_id: Multiuso-TensaoA
+        address: 69
+        slave: 1
+        data_type: float32
+        unit_of_measurement: V
+        device_class: voltage
+      - name: Tensão FASE B
+        unique_id: Multiuso-TensaoB
+        address: 71
+        slave: 1
+        data_type: float32
+        unit_of_measurement: V
+        device_class: voltage
+      - name: Tensão FASE C
+        unique_id: Multiuso-TensaoC
+        address: 73
+        slave: 1
+        data_type: float32
+        unit_of_measurement: V
+        device_class: voltage
+      - name: Corrente FASE A
+        unique_id: Multiuso-CorrenteA
+        address: 75
+        slave: 1
+        data_type: float32
+        precision: 2
+        unit_of_measurement: A
+        device_class: current
+      - name: Corrente FASE B
+        unique_id: Multiuso-CorrenteB
+        address: 77
+        slave: 1
+        data_type: float32
+        precision: 2
+        unit_of_measurement: A
+        device_class: current
+      - name: Corrente FASE C
+        unique_id: Multiuso-CorrenteC
+        address: 79
+        slave: 1
+        data_type: float32
+        precision: 2
+        unit_of_measurement: A
+        device_class: current
+      - name: Potência Ativa FASE A
+        unique_id: Multiuso-PotAtivaA
+        address: 81
+        slave: 1
+        data_type: float32
+        unit_of_measurement: W
+        device_class: power
+      - name: Potência Ativa FASE B
+        unique_id: Multiuso-PotAtivaB
+        address: 83
+        slave: 1
+        data_type: float32
+        unit_of_measurement: W
+        device_class: power
+      - name: Potência Ativa FASE C
+        unique_id: Multiuso-PotAtivaC
+        address: 85
+        slave: 1
+        data_type: float32
+        unit_of_measurement: W
+        device_class: power
+      - name: Potência Ativa TOTAL
+        unique_id: Multiuso-PotAtivaTotal
+        address: 87
+        slave: 1
+        data_type: float32
+        unit_of_measurement: W
+        device_class: power 
+      - name: Potência Reativa FASE A
+        unique_id: Multiuso-PotReativaA
+        address: 89
+        slave: 1
+        data_type: float32
+        unit_of_measurement: var
+        device_class: reactive_power
+      - name: Potência Reativa FASE B
+        unique_id: Multiuso-PotReativaB
+        address: 91
+        slave: 1
+        data_type: float32
+        unit_of_measurement: var
+        device_class: reactive_power
+      - name: Potência Reativa FASE C
+        unique_id: Multiuso-PotReativaC
+        address: 93
+        slave: 1
+        data_type: float32
+        unit_of_measurement: var
+        device_class: reactive_power
+      - name: Potência Reativa TOTAL
+        unique_id: Multiuso-PotReativaTotal
+        address: 95
+        slave: 1
+        data_type: float32
+        unit_of_measurement: var
+        device_class: reactive_power
+      - name: Fator Potência FASE A
+        unique_id: Multiuso-FatPotA
+        address: 105
+        slave: 1
+        data_type: float32
+        precision: 2
+        device_class: power_factor
+      - name: Fator Potência FASE B
+        unique_id: Multiuso-FatPotB
+        address: 107
+        slave: 1
+        data_type: float32
+        precision: 2
+        device_class: power_factor
+      - name: Fator Potência FASE C
+        unique_id: Multiuso-FatPotC
+        address: 109
+        slave: 1
+        data_type: float32
+        precision: 2
+        device_class: power_factor
+      - name: Fator Potência TOTAL
+        unique_id: Multiuso-FatPotTotal
+        address: 111
+        slave: 1
+        data_type: float32
+        precision: 2
+        device_class: power_factor      

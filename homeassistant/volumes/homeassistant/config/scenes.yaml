@@ -1,0 +1,17 @@
+- id: '1715469293770'
+  name: Nova cena
+  entities:
+    switch.luz_001_3c_1:
+      icon: mdi:lightbulb
+      friendly_name: Interruptor 1
+      state: 'off'
+    switch.luz_001_3c:
+      icon: mdi:lightbulb
+      friendly_name: Interruptor 2
+      state: 'off'
+    switch.luz_001_3c_2:
+      icon: mdi:lightbulb
+      friendly_name: Interruptor 3
+      state: 'off'
+  icon: mdi:lightbulb-group
+  metadata: {}

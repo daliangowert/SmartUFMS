@@ -1,0 +1,253 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+# Add container user interfaces to navigation menu
+# panel_iframe:
+#   duplicati:
+#     title: "Duplicati"
+#     url: "http://localhost:8200"
+#     icon: "mdi:backup-restore"
+#     require_admin: true
+
+influxdb:
+  api_version: 2
+  ssl: false
+  host: localhost
+  port: 8086
+  token: 
+  organization: ad4b2d9df77affee
+  bucket: homeassistant
+  tags:
+    source: HA
+  tags_attributes:
+    - friendly_name
+  default_measurement: units
+  exclude:
+    entities:
+      - zone.home
+    domains:
+      - persistent_notification
+      - person
+  include:
+    domains:
+      - sensor
+      - binary_sensor
+      - sun
+    entities:
+      - weather.home
+
+modbus:
+  - !include md30-bloco11.yaml
+  - !include md30-multiuso.yaml
+
+template:
+  - sensor:
+      - name: "(Geração PV - Consumo) Bloco 11"
+        unique_id: Bloco11-DeltaGeraçãoConsumo
+        unit_of_measurement: "kW"
+        state: >
+          {{ '%0.2f' | format((states('sensor.potencia_ativa_total') | float) - float(states('sensor.pv_power_5'),0)) }}
+
+      - name: "Importação Grid Bloco 11"
+        unique_id: Bloco11-ImportacaoGrid
+        unit_of_measurement: "kWh"
+        state: >
+          {{ '%0.2f' | format((states('sensor.consumo_diario_bloco_11') | float) - (states('sensor.today_s_pv_generation_5') | float)) }}
+
+      - name: "Geração Instantânea Bloco 11"
+        unique_id: Bloco11-GeraçãoInstantânea
+        unit_of_measurement: "kW"
+        device_class: energy
+        state:  "{{ float(states('sensor.pv_power_5'),0) }}"
+
+homeassistant:
+  customize:
+    sensor.consumo_diario_bloco_11:
+      unit_of_measurement: kWh
+      device_class: energy
+      state_class: total_increasing
+
+mqtt:
+  switch:
+    - name: "ProfNadya"
+      unique_id: ProfNadya_switch
+      state_topic: "stat/ProfNadya/POWER"
+      command_topic: "cmnd/ProfNadya/POWER"
+      availability_topic: "tele/ProfNadya/LWT"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      state_on: "ON"
+      state_off: "OFF"
+      qos: 1
+      retain: true
+      device:
+        identifiers: ProfNadya
+        name: "ProfNadya"
+        model: "ProfNadya"
+        manufacturer: "Tasmota"
+
+    - name: "Copa"
+      unique_id: Copa_switch
+      state_topic: "stat/Copa/POWER"
+      command_topic: "cmnd/Copa/POWER"
+      availability_topic: "tele/Copa/LWT"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      state_on: "ON"
+      state_off: "OFF"
+      qos: 1
+      retain: true
+      device:
+        identifiers: Copa
+        name: "Copa"
+        model: "Copa"
+        manufacturer: "Tasmota"
+
+    - name: "CorredorSup"
+      unique_id: CorredorSup_switch
+      state_topic: "stat/CorredorSup/POWER"
+      command_topic: "cmnd/CorredorSup/POWER"
+      availability_topic: "tele/CorredorSup/LWT"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      state_on: "ON"
+      state_off: "OFF"
+      qos: 1
+      retain: true
+      device:
+        identifiers: CorredorSup
+        name: "CorredorSup"
+        model: "CorredorSup"
+        manufacturer: "Tasmota"
+
+    - name: "Escada"
+      unique_id: Escada_switch
+      state_topic: "stat/Escada/POWER"
+      command_topic: "cmnd/Escada/POWER"
+      availability_topic: "tele/Escada/LWT"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      state_on: "ON"
+      state_off: "OFF"
+      qos: 1
+      retain: true
+      device:
+        identifiers: Escada
+        name: "Escada"
+        model: "Escada"
+        manufacturer: "Tasmota"
+
+    - name: "CorredorInf"
+      unique_id: CorredorInf_switch
+      state_topic: "stat/CorredorInf/POWER"
+      command_topic: "cmnd/CorredorInf/POWER"
+      availability_topic: "tele/CorredorInf/LWT"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      state_on: "ON"
+      state_off: "OFF"
+      qos: 1
+      retain: true
+      device:
+        identifiers: CorredorInf
+        name: "CorredorInf"
+        model: "CorredorInf"
+        manufacturer: "Tasmota"
+
+climate:
+  - platform: tasmota_irhvac
+    name: "Ar GREE"
+    unique_id: Ar_GREE
+    command_topic: "cmnd/IRTemp_001/irhvac"
+    # Pick one of the following:
+    # State is updated when the tasmota device receives an IR signal (includes own transmission and original remote)
+    # useful when a normal remote is in use alongside the tasmota device, may be less reliable than the second option.
+    #state_topic: "tele/IRTemp_001/RESULT"
+    # State is updated when the tasmota device completes IR transmissionm, should be pretty reliable.
+    state_topic: "stat/IRTemp_001/RESULT"
+    # Uncomment if your 'available topic' of Tasmota IR device are different (if device in HA is disabled)
+    #availability_topic: "tele/your_tasmota_device/LWT"
+    temperature_sensor: sensor.tasmota_bme280_temperature
+    humidity_sensor: sensor.tasmota_bme280_humidity #optional - default None
+    power_sensor: sensor.ar_001_energy_power #optional - default None
+    vendor: "GREE"
+    # When operating grouped devices at the same time, MQTT commands are intentionally delayed to prevent multiple devices
+    # from performing the same operation at the same time. This allows the high current peaks to be shifted.
+    mqtt_delay: 0.0 #optional - default 0 int or 0.0 float value in [sec].
+    min_temp: 16 #optional - default 16 int value
+    max_temp: 30 #optional - default 32 int value
+    target_temp: 26 #optional - default 26 int value
+    initial_operation_mode: "off" # optional - default "off" string value (one of the "supported_modes")
+    away_temp: 24 #optional - default 24 int value
+    precision: 1 #optional - default 1 int or float value. Can be set to 1, 0.5 or 0.1
+    supported_modes:
+      - "cool"
+      - "dry"
+      - "fan_only" # Use "fan_only" even if Tasmota shows "Mode":"Fan"
+      - "auto"
+      - "off" #Turns the AC off - Should be in quotes
+      # Some devices have "auto" and "fan_only" switched
+      # If the following two lines are uncommented, "auto" and "fan" shoud be commented out
+      #- "auto_fan_only" #if remote shows fan but tasmota says auto
+      #- "fan_only_auto" #if remote shows auto but tasmota says fan
+    supported_fan_speeds:
+      # Some devices say max,but it is high, and auto which is max
+      # If you uncomment the following two, you have to comment high and max
+      # - "auto_max" #woud become max
+      # - "max_high" #would become high
+      #- "on"
+      #- "off"
+      #- "low"
+      #- "medium"
+      #- "high"
+      #- "middle"
+      #- "focus"
+      #- "diffuse"
+      - "min"
+      - "medium"
+      - "max"
+      - "auto"
+    supported_swing_list:
+      - "off"
+      - "vertical" #up to down
+      #- "horizontal" # Left to right
+      #- "both"
+    default_quiet_mode: "Off" #optional - default "Off" string value
+    default_turbo_mode: "Off" #optional - default "Off" string value
+    default_econo_mode: "Off" #optional - default "Off" string value
+    hvac_model: "-1" #optional - default "1" string value
+    celsius_mode: "On" #optional - default "On" string value
+    default_light_mode: "On" #optional - default "Off" string value
+    default_filter_mode: "Off" #optional - default "Off" string value
+    default_clean_mode: "Off" #optional - default "Off" string value
+    default_beep_mode: "Off" #optional - default "Off" string value
+    default_sleep_mode: "-1" #optional - default "-1" string value
+    default_swingv: "high" #optional - default "" string value
+    default_swingh: "left" #optional - default "" string value 
+    keep_mode_when_off: True #optional - default False boolean value : Must be True for MITSUBISHI_AC, ECOCLIM, etc.
+    toggle_list: #optional - default []
+      # The toggled property is a setting that does not retain the On state.
+      # Set this if your AC properties are toggle function.
+      #- Beep
+      #- Clean
+      #- Econo
+      #- Filter
+      #- Light
+      #- Quiet
+      #- Sleep
+      #- SwingH
+      #- SwingV
+      #- Turbo
+# When turning off some devices with their remote control they are set to the lowest temperature
+# and this is shown on the thermostat card. Setting `ignore_off_temp` value to True will keep the last target temperature displayed on the card.
+    ignore_off_temp: False #optional - default False boolean value
+
+powercalc:
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml

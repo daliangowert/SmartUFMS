@@ -1,0 +1,153 @@
+    name: MD30-Bloco11
+    type: tcp
+    host: 172.25.8.5
+    port: 1001
+    sensors:
+      - name: Frequência FASE A
+        unique_id: Bloco11-FreqA
+        address: 67
+        slave: 1
+        precision: 0
+        data_type: float32
+        unit_of_measurement: Hz
+        device_class: frequency
+      - name: Tensão FASE A
+        unique_id: Bloco11-TensaoA
+        address: 69
+        slave: 1
+        precision: 0
+        data_type: float32
+        unit_of_measurement: V
+        device_class: voltage
+      - name: Tensão FASE B
+        unique_id: Bloco11-TensaoB
+        address: 71
+        slave: 1
+        precision: 0
+        data_type: float32
+        unit_of_measurement: V
+        device_class: voltage
+      - name: Tensão FASE C
+        unique_id: Bloco11-TensaoC
+        address: 73
+        slave: 1
+        precision: 0
+        data_type: float32
+        unit_of_measurement: V
+        device_class: voltage
+      - name: Corrente FASE A
+        unique_id: Bloco11-CorrenteA
+        address: 75
+        slave: 1
+        data_type: float32
+        precision: 2
+        unit_of_measurement: A
+        device_class: current
+      - name: Corrente FASE B
+        unique_id: Bloco11-CorrenteB
+        address: 77
+        slave: 1
+        data_type: float32
+        precision: 2
+        unit_of_measurement: A
+        device_class: current
+      - name: Corrente FASE C
+        unique_id: Bloco11-CorrenteC
+        address: 79
+        slave: 1
+        data_type: float32
+        precision: 2
+        unit_of_measurement: A
+        device_class: current
+      - name: Potência Ativa FASE A
+        unique_id: Bloco11-PotAtivaA
+        address: 81
+        slave: 1
+        precision: 2
+        data_type: float32
+        unit_of_measurement: W
+        device_class: power
+      - name: Potência Ativa FASE B
+        unique_id: Bloco11-PotAtivaB
+        address: 83
+        slave: 1
+        precision: 2
+        data_type: float32
+        unit_of_measurement: W
+        device_class: power
+      - name: Potência Ativa FASE C
+        unique_id: Bloco11-PotAtivaC
+        address: 85
+        slave: 1
+        precision: 2
+        data_type: float32
+        unit_of_measurement: W
+        device_class: power
+      - name: Potência Ativa TOTAL
+        unique_id: Bloco11-PotAtivaTotal
+        address: 87
+        slave: 1
+        precision: 2
+        data_type: float32
+        unit_of_measurement: W
+        device_class: power 
+      - name: Potência Reativa FASE A
+        unique_id: Bloco11-PotReativaA
+        address: 89
+        slave: 1
+        precision: 2
+        data_type: float32
+        unit_of_measurement: var
+        device_class: reactive_power
+      - name: Potência Reativa FASE B
+        unique_id: Bloco11-PotReativaB
+        address: 91
+        slave: 1
+        precision: 2
+        data_type: float32
+        unit_of_measurement: var
+        device_class: reactive_power
+      - name: Potência Reativa FASE C
+        unique_id: Bloco11-PotReativaC
+        address: 93
+        slave: 1
+        precision: 2
+        data_type: float32
+        unit_of_measurement: var
+        device_class: reactive_power
+      - name: Potência Reativa TOTAL
+        unique_id: Bloco11-PotReativaTotal
+        address: 95
+        slave: 1
+        precision: 2
+        data_type: float32
+        unit_of_measurement: var
+        device_class: reactive_power
+      - name: Fator Potência FASE A
+        unique_id: Bloco11-FatPotA
+        address: 105
+        slave: 1
+        data_type: float32
+        precision: 2
+        device_class: power_factor
+      - name: Fator Potência FASE B
+        unique_id: Bloco11-FatPotB
+        address: 107
+        slave: 1
+        data_type: float32
+        precision: 2
+        device_class: power_factor
+      - name: Fator Potência FASE C
+        unique_id: Bloco11-FatPotC
+        address: 109
+        slave: 1
+        data_type: float32
+        precision: 2
+        device_class: power_factor
+      - name: Fator Potência TOTAL
+        unique_id: Bloco11-FatPotTotal
+        address: 111
+        slave: 1
+        data_type: float32
+        precision: 2
+        device_class: power_factor      

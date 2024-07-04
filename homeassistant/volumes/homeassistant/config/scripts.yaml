@@ -1,0 +1,79 @@
+ligar_ar_gree:
+  alias: Ligar Ar Gree
+  sequence:
+  - service: mqtt.publish
+    data:
+      qos: '0'
+      retain: false
+      topic: cmnd/IRTemp_001/IRhvac
+      payload: '  {   "Vendor": "GREE",   "Model": -1,   "Command": "Control",   "Mode":
+        "Cool",   "Power": "On",   "Celsius": "On",   "Temp": 24,   "FanSpeed": "Min",   "SwingV":
+        "Off",   "SwingH": "Off",   "Quiet": "Off",   "Turbo": "Off",   "Econo": "Off",   "Light":
+        "On",   "Filter": "Off",   "Clean": "Off",   "Beep": "Off",   "Sleep": -1,   "iFeel":
+        "Off"   }'
+  mode: single
+  icon: mdi:air-conditioner
+desligar_ar_gree:
+  alias: Desligar Ar GREE
+  sequence:
+  - service: mqtt.publish
+    data:
+      qos: '0'
+      retain: false
+      topic: cmnd/IRTemp_001/IRhvac
+      payload: '  {   "Vendor": "GREE",   "Model": -1,   "Command": "Control",   "Mode":
+        "Cool",   "Power": "Off",   "Celsius": "On",   "Temp": 24,   "FanSpeed": "Min",   "SwingV":
+        "Off",   "SwingH": "Off",   "Quiet": "Off",   "Turbo": "Off",   "Econo": "Off",   "Light":
+        "On",   "Filter": "Off",   "Clean": "Off",   "Beep": "Off",   "Sleep": -1,   "iFeel":
+        "Off"   }'
+    enabled: false
+  - condition: numeric_state
+    entity_id: sensor.ar_001_energy_power
+    below: 10
+    enabled: false
+  - service: climate.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: climate.ar_gree
+  mode: single
+  icon: mdi:air-conditioner
+teste:
+  alias: Notificação via Gmail
+  sequence:
+  - service: notify.homeassistantufms_gmail_com
+    metadata: {}
+    data_template:
+      target: d.gowert@ufms.br; r.alcantara@ufms.br
+      title: '{{title_notification}}'
+      message: "<html>\n  <body>\n    <p>{{message_notification}}</p>\n  </body>\n</html>\n"
+  mode: parallel
+  icon: mdi:email-arrow-right
+  fields:
+    title_notification:
+      selector:
+        text:
+      name: Título da notificação
+      required: true
+      default: SmartUFMS - Notificação de indisponibilidade do dispositivo XXXX
+    message_notification:
+      selector:
+        text:
+          multiple: false
+          multiline: true
+      name: Mensagem da notificação
+      required: true
+      default: 'Informamos que o dispositivo <b> XXX </b> encontra-se temporariamente
+        indisponível.<br><br>
+
+
+        Certifique-se de verificar o ocorrido, isso pode estar relacionado a falta
+        de energia ou internet no local, por exemplo.<br><br>
+
+
+        Agradecemos a sua atenção e colaboração para a resolução deste incidente.<br><br>
+
+
+        Atenciosamente, <br>
+
+        Equipe do Sistema de Gerenciamento de Dispositivos IoT - SmartUFMS'
